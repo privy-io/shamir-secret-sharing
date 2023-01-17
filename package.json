@@ -1,0 +1,53 @@
+{
+  "name": "shamir-secret-sharing",
+  "version": "0.0.1-beta.1",
+  "description": "Simple zero-dependency TypeScript implementation of Shamir's Secret Sharing algorithm",
+  "keywords": [
+    "shamir",
+    "secret",
+    "sharing",
+    "threshold",
+    "cryptography",
+    "crypto",
+    "keys",
+    "mnemonic",
+    "typescript",
+    "node",
+    "browser",
+    "web3"
+  ],
+  "exports": {
+    ".": {
+      "require": "./lib/index.cjs.js",
+      "import": "./lib/index.esm.js",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "files": [
+    "lib/**/*",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npx tsup --clean --minify",
+    "watch": "npx tsup --watch",
+    "clean": "rm -rf lib",
+    "lint": "prettier --check 'src/**/*.ts' 'test/*.ts'",
+    "test": "jest --testMatch \"**/test/**/*.test.ts\""
+  },
+  "author": "privy.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/privy/shamir-secret-sharing.git"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "devDependencies": {
+    "@tsconfig/node16-strictest-esm": "^1.0.3",
+    "@types/jest": "^29.2.5",
+    "prettier": "^2.8.3",
+    "ts-jest": "^29.0.5",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4"
+  }
+}

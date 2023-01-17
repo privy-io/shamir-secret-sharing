@@ -1,0 +1,11 @@
+{
+  "extends": "@tsconfig/node16-strictest-esm/tsconfig.json",
+  "compilerOptions": {
+      "declaration": true,
+      "outDir": "lib",
+      "lib": [
+        "es2021", "DOM",
+      ],
+  },
+  "include": ["src"]
+}

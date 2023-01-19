@@ -88,31 +88,63 @@ describe('shamir-secret-sharing', () => {
     );
   });
 
-  it('splits a secret into multiple shares', async () => {
-    const [a, b, c] = await split(secret, 3, 2);
-    expect(a).toBeInstanceOf(Uint8Array);
-    expect(a!.byteLength).toBe(secret.byteLength + 1);
-    expect(b).toBeInstanceOf(Uint8Array);
-    expect(b!.byteLength).toBe(secret.byteLength + 1);
-    expect(c).toBeInstanceOf(Uint8Array);
-    expect(c!.byteLength).toBe(secret.byteLength + 1);
+  it('can split a secret into multiple shares', async () => {
+    const shares = await split(secret, 3, 2);
+    expect(shares.length).toBe(3);
 
-    const reconstructed = await combine([a!, c!]);
+    const [a, b, c] = shares as [Uint8Array, Uint8Array, Uint8Array];
+    expect(a).toBeInstanceOf(Uint8Array);
+    expect(a.byteLength).toBe(secret.byteLength + 1);
+    expect(b).toBeInstanceOf(Uint8Array);
+    expect(b.byteLength).toBe(secret.byteLength + 1);
+    expect(c).toBeInstanceOf(Uint8Array);
+    expect(c.byteLength).toBe(secret.byteLength + 1);
+
+    const reconstructed = await combine([a, c]);
     expect(reconstructed).toEqual(secret);
   });
 
   it('can split a 1 byte secret', async () => {
     const oneByteSecret = new Uint8Array([0x33]);
 
-    const [a, b, c] = await split(oneByteSecret, 3, 2);
-    expect(a).toBeInstanceOf(Uint8Array);
-    expect(a!.byteLength).toBe(2);
-    expect(b).toBeInstanceOf(Uint8Array);
-    expect(b!.byteLength).toBe(2);
-    expect(c).toBeInstanceOf(Uint8Array);
-    expect(c!.byteLength).toBe(2);
+    const shares = await split(oneByteSecret, 3, 2);
+    expect(shares.length).toBe(3);
 
-    const reconstructed = await combine([a!, b!]);
+    const [a, b, c] = shares as [Uint8Array, Uint8Array, Uint8Array];
+    expect(a.byteLength).toBe(2);
+    expect(b.byteLength).toBe(2);
+    expect(c.byteLength).toBe(2);
+
+    const reconstructed = await combine([a, b]);
     expect(reconstructed).toEqual(oneByteSecret);
+  });
+
+  it('can require all shares to reconstruct', async () => {
+    const shares = await split(secret, 2, 2);
+    expect(shares.length).toBe(2);
+    await expect(combine(shares)).resolves.toEqual(secret);
+  });
+
+  it('can combine using any combination of shares that meets the given threshold', async () => {
+    const shares = await split(secret, 5, 3);
+    expect(shares.length).toBe(5);
+
+    // Test combining all permutations of 3 shares
+    for (let i = 0; i < 5; i++) {
+      expect(shares[i]!).toBeInstanceOf(Uint8Array);
+      expect(shares[i]!.byteLength).toBe(secret.byteLength + 1);
+      for (let j = 0; j < 5; j++) {
+        if (j === i) {
+          continue;
+        }
+        for (let k = 0; k < 5; k++) {
+          if (k === i || k === j) {
+            continue;
+          }
+          const reconstructed = combine([shares[i]!, shares[j]!, shares[k]!]);
+          await expect(reconstructed).resolves.toEqual(secret);
+        }
+      }
+    }
   });
 });

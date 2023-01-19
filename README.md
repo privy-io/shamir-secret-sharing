@@ -4,9 +4,11 @@
 
 Simple zero-dependency TypeScript implementation of [Shamir's Secret Sharing algorithm](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing).
 
-Implementation inspired by [hashicorp/vault](https://github.com/hashicorp/vault/tree/main/shamir).
+Uses GF(2^8). Works on `Uint8Array` objects. Implementation inspired by [hashicorp/vault](https://github.com/hashicorp/vault/tree/main/shamir).
 
 ## Usage
+
+We can `split` a secret into shares and later `combine` the shares to reconstruct the secret.
 
 ```typescript
 import {split, combine} from 'shamir-secret-sharing';
@@ -43,6 +45,8 @@ console.log(reconstructed === exportedKey); // true
 
 ## API
 
+This package exposes two functions: `split` and `combine`.
+
 #### split
 
 ```ts
@@ -50,8 +54,8 @@ console.log(reconstructed === exportedKey); // true
  * Splits a `secret` into `shares` number of shares, requiring `threshold` of them to reconstruct `secret`.
  *
  * @param secret The secret value to split into shares.
- * @param shares The total number of shares to split `secret` into.
- * @param threshold The minimum number of shares required to reconstruct `secret`.
+ * @param shares The total number of shares to split `secret` into. Must be at least 2 and at most 255.
+ * @param threshold The minimum number of shares required to reconstruct `secret`. Must be at least 2 and at most 255.
  * @returns A list of `shares` shares.
  */
 declare function split(secret: Uint8Array, shares: number, threshold: number): Promise<Uint8Array[]>;
@@ -63,7 +67,7 @@ declare function split(secret: Uint8Array, shares: number, threshold: number): P
 /**
  * Combines `shares` to reconstruct the secret.
  *
- * @param shares The list of shares used to reconstruct the secret.
+ * @param shares A list of shares to reconstruct the secret from. Must be at least 2 and at most 255.
  * @returns The reconstructed secret.
  */
 declare function combine(shares: Uint8Array[]): Promise<Uint8Array>;

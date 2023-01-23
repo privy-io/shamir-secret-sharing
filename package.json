@@ -37,7 +37,8 @@
     "watch": "npx tsup --watch",
     "clean": "rm -rf lib",
     "lint": "prettier --check 'src/**/*.ts' 'test/*.ts'",
-    "test": "jest --testMatch \"**/test/**/*.test.ts\""
+    "test": "jest --testMatch \"**/test/**/*.test.ts\"",
+    "prepublishOnly": "npm run clean && npm run build"
   },
   "author": "privy.io",
   "repository": {

@@ -8,6 +8,12 @@ Uses GF(2^8). Works on `Uint8Array` objects. Implementation inspired by [hashico
 
 Made with ❤️  by [Privy](https://privy.io).
 
+## Compatibility
+
+Currently works in the browser and most recent versons of node (>= 17). The only reason for poor node support right now is the use of `crypto.getRandomValues()` from the Webcrypto spec. This exists in recent versions of node but not older ones.
+
+There are future plans to make this work well in all node versions.
+
 ## Usage
 
 We can `split` a secret into shares and later `combine` the shares to reconstruct the secret.
@@ -22,13 +28,13 @@ const input = document.querySelector("input#secret").value.normalize('NFKC');
 const secret = toUint8Array(secret);
 const [share1, share2, share3] = await split(secret, 3, 2);
 const reconstructed = await combine([share1, share3]);
-console.log(reconstructed === secret); // true
+console.log(btoa(reconstructed) === btoa(secret)); // true
 
 // Example of splitting random entropy
 const randomEntropy = crypto.getRandomValues(new Uint8Array(16));
 const [share1, share2, share3] = await split(randomEntropy, 3, 2);
 const reconstructed = await combine([share2, share3]);
-console.log(reconstructed === randomEntropy); // true
+console.log(btoa(reconstructed) === btoa(randomEntropy)); // true
 
 // Example of splitting symmetric key
 const key = await crypto.subtle.generateKey(
@@ -42,7 +48,7 @@ const key = await crypto.subtle.generateKey(
 const exportedKey = await crypto.subtle.exportKey('raw', key);
 const [share1, share2, share3] = await split(exportedKey, 3, 2);
 const reconstructed = await combine([share2, share1]);
-console.log(reconstructed === exportedKey); // true
+console.log(btoa(reconstructed) === btoa(exportedKey)); // true
 ```
 
 ## API

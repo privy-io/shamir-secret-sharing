@@ -16,6 +16,10 @@
     "browser",
     "web3"
   ],
+  "main": "./lib/index.cjs.js",
+  "module": "./lib/index.esm.js",
+  "types": "./lib/index.d.ts",
+  "typings": "./lib/index",
   "exports": {
     ".": {
       "require": "./lib/index.cjs.js",
@@ -41,7 +45,6 @@
     "url": "https://github.com/privy-io/shamir-secret-sharing"
   },
   "license": "Apache-2.0",
-  "main": "index.js",
   "devDependencies": {
     "@tsconfig/node16-strictest-esm": "^1.0.3",
     "@types/jest": "^29.2.5",

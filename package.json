@@ -38,7 +38,7 @@
   "author": "privy.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/privy/shamir-secret-sharing.git"
+    "url": "https://github.com/privy-io/shamir-secret-sharing"
   },
   "license": "Apache-2.0",
   "main": "index.js",

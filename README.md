@@ -25,7 +25,7 @@ const toUint8Array = (data: string) => new TextEncoder().encode(data);
 
 // Example of splitting user input
 const input = document.querySelector("input#secret").value.normalize('NFKC');
-const secret = toUint8Array(secret);
+const secret = toUint8Array(input);
 const [share1, share2, share3] = await split(secret, 3, 2);
 const reconstructed = await combine([share1, share3]);
 console.log(btoa(reconstructed) === btoa(secret)); // true
@@ -45,7 +45,8 @@ const key = await crypto.subtle.generateKey(
   true,
   ["encrypt", "decrypt"]
 );
-const exportedKey = await crypto.subtle.exportKey('raw', key);
+const exportedKeyBuffer = await crypto.subtle.exportKey('raw', key);
+const exportedKey = new Uint8Array(exportedKeyBuffer);
 const [share1, share2, share3] = await split(exportedKey, 3, 2);
 const reconstructed = await combine([share2, share1]);
 console.log(btoa(reconstructed) === btoa(exportedKey)); // true

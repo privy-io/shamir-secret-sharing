@@ -6,6 +6,8 @@ Simple zero-dependency TypeScript implementation of [Shamir's Secret Sharing alg
 
 Uses GF(2^8). Works on `Uint8Array` objects. Implementation inspired by [hashicorp/vault](https://github.com/hashicorp/vault/tree/main/shamir).
 
+Made with ❤️  by [Privy](https://privy.io).
+
 ## Usage
 
 We can `split` a secret into shares and later `combine` the shares to reconstruct the secret.
@@ -72,9 +74,3 @@ declare function split(secret: Uint8Array, shares: number, threshold: number): P
  */
 declare function combine(shares: Uint8Array[]): Promise<Uint8Array>;
 ```
-
-## License
-
-MIT. See LICENSE file.
-
-Copyright 2023 Horkos, Inc.

@@ -40,7 +40,7 @@
     "type": "git",
     "url": "https://github.com/privy/shamir-secret-sharing.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "index.js",
   "devDependencies": {
     "@tsconfig/node16-strictest-esm": "^1.0.3",

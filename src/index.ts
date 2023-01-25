@@ -78,12 +78,16 @@ function mult(a: number, b: number): number {
 
 // Takes N sample points and returns the value at a given x using a lagrange interpolation.
 function interpolatePolynomial(xSamples: Uint8Array, ySamples: Uint8Array, x: number): number {
+  if (xSamples.length !== ySamples.length) {
+    throw new Error('sample length mistmatch');
+  }
+
   const limit = xSamples.length;
 
   let basis = 0;
   let result = 0;
 
-  for (let i = 0; i < limit; ++i) {
+  for (let i = 0; i < limit; i++) {
     basis = 1;
 
     for (let j = 0; j < limit; ++j) {
@@ -134,7 +138,7 @@ function newCoefficients(intercept: number, degree: number): Readonly<Uint8Array
 // Returns a psuedo-random shuffling of the set.
 function newCoordinates(): Readonly<Uint8Array> {
   const coordinates = new Uint8Array(255);
-  for (let i = 0; i < 255; ++i) {
+  for (let i = 0; i < 255; i++) {
     coordinates[i] = i + 1;
   }
 
@@ -145,7 +149,7 @@ function newCoordinates(): Readonly<Uint8Array> {
   // does not map neatly here is if the random byte is 255, since that value used as an index
   // would be out of bounds. Thus, for bytes whose value is 255, wrap around to 0.
   const randomIndices = getRandomBytes(255);
-  for (let i = 0; i < 255; ++i) {
+  for (let i = 0; i < 255; i++) {
     const j = randomIndices[i]! % 255; // Make sure to handle the case where the byte is 255.
     const temp = coordinates[i]!;
     coordinates[i] = coordinates[j]!;
@@ -214,7 +218,7 @@ export async function split(
   const secretLength = secret.byteLength;
   const xCoordinates = newCoordinates();
 
-  for (let i = 0; i < shares; ++i) {
+  for (let i = 0; i < shares; i++) {
     const share = new Uint8Array(secretLength + 1);
     share[secretLength] = xCoordinates[i]!;
     result.push(share);
@@ -222,7 +226,7 @@ export async function split(
 
   const degree = threshold - 1;
 
-  for (let i = 0; i < secretLength; ++i) {
+  for (let i = 0; i < secretLength; i++) {
     const byte = secret[i]!;
     const coefficients = newCoefficients(byte, degree);
 
@@ -276,7 +280,7 @@ export async function combine(shares: Uint8Array[]): Promise<Uint8Array> {
   const ySamples = new Uint8Array(sharesLength);
 
   const samples: Set<number> = new Set();
-  for (let i = 0; i < sharesLength; ++i) {
+  for (let i = 0; i < sharesLength; i++) {
     const share = shares[i]!;
     const sample = share[shareLength - 1]!;
 
@@ -290,7 +294,7 @@ export async function combine(shares: Uint8Array[]): Promise<Uint8Array> {
   }
 
   // Reconstruct each byte
-  for (let i = 0; i < secretLength; ++i) {
+  for (let i = 0; i < secretLength; i++) {
     // Set the y value for each sample
     for (let j = 0; j < sharesLength; ++j) {
       ySamples[j] = shares[j]![i]!;

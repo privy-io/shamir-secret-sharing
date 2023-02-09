@@ -10,7 +10,7 @@ Made with ❤️  by [Privy](https://privy.io).
 
 ## Compatibility
 
-Currently works in the browser and most recent versons of node (>= 17). The only reason for poor node support right now is the use of `crypto.getRandomValues()` from the Webcrypto spec. This exists in recent versions of node but not older ones.
+Currently works in the browser and most recent versions of node (>= 17). The only reason for poor node support right now is the use of `crypto.getRandomValues()` from the Webcrypto spec. This exists in recent versions of node but not older ones.
 
 There are future plans to make this work well in all node versions.
 

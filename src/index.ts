@@ -1,3 +1,5 @@
+// The Polynomial used is: x⁸ + x⁴ + x³ + x + 1
+//
 // Lookup tables pulled from:
 //
 //     * https://github.com/hashicorp/vault/blob/9d46671659cbfe7bbd3e78d1073dfb22936a4437/shamir/tables.go

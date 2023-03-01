@@ -1,7 +1,7 @@
 {
   "name": "shamir-secret-sharing",
   "version": "0.0.1-beta.6",
-  "description": "Simple zero-dependency TypeScript implementation of Shamir's Secret Sharing algorithm",
+  "description": "Simple, independently audited, zero-dependency TypeScript implementation of Shamir's Secret Sharing algorithm",
   "keywords": [
     "shamir",
     "secret",

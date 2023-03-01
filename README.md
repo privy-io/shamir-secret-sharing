@@ -2,7 +2,7 @@
 
 ![Github CI](https://github.com/privy-io/shamir-secret-sharing/workflows/Github%20CI/badge.svg)
 
-Simple, idenpendently audited, zero-dependency TypeScript implementation of [Shamir's Secret Sharing algorithm](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing).
+Simple, independently audited, zero-dependency TypeScript implementation of [Shamir's Secret Sharing algorithm](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing).
 
 Uses GF(2^8). Works on `Uint8Array` objects. Implementation inspired by [hashicorp/vault](https://github.com/hashicorp/vault/tree/main/shamir).
 

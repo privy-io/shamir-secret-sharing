@@ -10,7 +10,7 @@ Made with ❤️  by [Privy](https://privy.io).
 
 ## Security considerations
 
-This library has been independently audited by [Cure53](https://cure53.de). See the [initial audit report](https://cure53.de/audit-report_privy-sss-library.pdf).
+This library has been independently audited by [Cure53](https://cure53.de). See the [audit report](https://cure53.de/audit-report_privy-sss-library.pdf).
 
 There are a couple of considerations for proper use of this library.
 

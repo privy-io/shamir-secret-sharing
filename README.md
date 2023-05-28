@@ -6,6 +6,8 @@ Simple, independently audited, zero-dependency TypeScript implementation of [Sha
 
 Uses GF(2^8). Works on `Uint8Array` objects. Implementation inspired by [hashicorp/vault](https://github.com/hashicorp/vault/tree/main/shamir).
 
+Both Node and browser environments are supported.
+
 Made with ❤️  by [Privy](https://privy.io).
 
 ## Security considerations
@@ -17,12 +19,6 @@ There are a couple of considerations for proper use of this library.
 1. Resistance to side channel attacks: JavaScript is a garbage-collected, just-in-time compiled language and it is thus unrealistic to achieve true constant-time guarantees. Where possible, we aim to achieve algorithmic constant-time.
 2. This library is not responsible for verifying the result of share reconstruction. Incorrect or corrupted shares will produce an incorrect value. Thus, it is the responsibility of users of this library to verify the integrity of the reconstructed secret.
 3. Secrets should ideally be uniformly distributed at random. If this is not the case, it is recommended to first encrypt the value and split the encryption key.
-
-## Compatibility
-
-Currently works in the browser and most recent versions of node (>= 17). The only reason for poor node support right now is the use of `crypto.getRandomValues()` from the Webcrypto spec. This exists in recent versions of node but not older ones.
-
-There are future plans to make this work well in all node versions.
 
 ## Usage
 

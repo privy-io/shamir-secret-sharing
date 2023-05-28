@@ -1,22 +1,15 @@
-import {split, combine} from '../src';
-
-// TODO: Can we handle this better?
-if (typeof crypto === 'undefined') {
-  globalThis.crypto = require('node:crypto').webcrypto;
-}
+const {split, combine} = require('../');
 
 describe('shamir-secret-sharing', () => {
   const secret = new Uint8Array([0x73, 0x65, 0x63, 0x72, 0x65, 0x74]);
 
   it('cannot split with invalid arguments', async () => {
-    // @ts-ignore
     const secretWrongType = split([0x73, 0x65, 0x63, 0x72, 0x65, 0x74], 3, 2);
     await expect(secretWrongType).rejects.toThrow(new TypeError('secret must be a Uint8Array'));
 
     const emptySecret = split(new Uint8Array(0), 3, 2);
     await expect(emptySecret).rejects.toThrow(new Error('secret cannot be empty'));
 
-    // @ts-ignore
     const sharesWrongType = split(secret, '3', 2);
     await expect(sharesWrongType).rejects.toThrow(new TypeError('shares must be a number'));
 
@@ -30,7 +23,6 @@ describe('shamir-secret-sharing', () => {
       new RangeError('shares must be at least 2 and at most 255'),
     );
 
-    // @ts-ignore
     const thresholdWrongType = split(secret, 3, '2');
     await expect(thresholdWrongType).rejects.toThrow(new TypeError('threshold must be a number'));
 
@@ -54,7 +46,6 @@ describe('shamir-secret-sharing', () => {
     const bogusShare1 = new Uint8Array([0xff, 0x23]);
     const bogusShare2 = new Uint8Array([0xc1, 0xa7, 0x04]);
 
-    // @ts-ignore
     const sharesWrongType = combine(bogusShare1, bogusShare2);
     await expect(sharesWrongType).rejects.toThrow(new TypeError('shares must be an Array'));
 
@@ -68,7 +59,6 @@ describe('shamir-secret-sharing', () => {
       new TypeError('shares must have at least 2 and at most 255 elements'),
     );
 
-    // @ts-ignore
     const shareWrongType = combine([bogusShare1, 'bogusShare2']);
     await expect(shareWrongType).rejects.toThrow(new TypeError('each share must be a Uint8Array'));
 
@@ -92,7 +82,7 @@ describe('shamir-secret-sharing', () => {
     const shares = await split(secret, 3, 2);
     expect(shares.length).toBe(3);
 
-    const [a, b, c] = shares as [Uint8Array, Uint8Array, Uint8Array];
+    const [a, b, c] = shares;
     expect(a).toBeInstanceOf(Uint8Array);
     expect(a.byteLength).toBe(secret.byteLength + 1);
     expect(b).toBeInstanceOf(Uint8Array);
@@ -110,7 +100,7 @@ describe('shamir-secret-sharing', () => {
     const shares = await split(oneByteSecret, 3, 2);
     expect(shares.length).toBe(3);
 
-    const [a, b, c] = shares as [Uint8Array, Uint8Array, Uint8Array];
+    const [a, b, c] = shares;
     expect(a.byteLength).toBe(2);
     expect(b.byteLength).toBe(2);
     expect(c.byteLength).toBe(2);
@@ -131,8 +121,8 @@ describe('shamir-secret-sharing', () => {
 
     // Test combining all permutations of 3 shares
     for (let i = 0; i < 5; i++) {
-      expect(shares[i]!).toBeInstanceOf(Uint8Array);
-      expect(shares[i]!.byteLength).toBe(secret.byteLength + 1);
+      expect(shares[i]).toBeInstanceOf(Uint8Array);
+      expect(shares[i].byteLength).toBe(secret.byteLength + 1);
       for (let j = 0; j < 5; j++) {
         if (j === i) {
           continue;
@@ -141,7 +131,7 @@ describe('shamir-secret-sharing', () => {
           if (k === i || k === j) {
             continue;
           }
-          const reconstructed = combine([shares[i]!, shares[j]!, shares[k]!]);
+          const reconstructed = combine([shares[i], shares[j], shares[k]]);
           await expect(reconstructed).resolves.toEqual(secret);
         }
       }

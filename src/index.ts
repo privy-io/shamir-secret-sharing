@@ -1,3 +1,5 @@
+import {getRandomBytes} from 'shamir-secret-sharing/csprng';
+
 // The Polynomial used is: x⁸ + x⁴ + x³ + x + 1
 //
 // Lookup tables pulled from:
@@ -122,10 +124,6 @@ function evaluate(coefficients: Uint8Array, x: number, degree: number) {
   }
 
   return result;
-}
-
-function getRandomBytes(byteLength: number): Uint8Array {
-  return crypto.getRandomValues(new Uint8Array(byteLength));
 }
 
 function getRandomByte(): number {

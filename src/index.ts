@@ -52,11 +52,23 @@ const EXP_TABLE: Readonly<Uint8Array> = new Uint8Array([
 // Combines two numbers in GF(2^8).
 // This can be used for both addition and subtraction.
 function add(a: number, b: number): number {
+  if (!Number.isInteger(a) || a < 0 || a > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
+  if (!Number.isInteger(b) || b < 0 || b > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
   return a ^ b;
 }
 
 // Divides two numbers in GF(2^8).
 function div(a: number, b: number): number {
+  if (!Number.isInteger(a) || a < 0 || a > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
+  if (!Number.isInteger(b) || b < 0 || b > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
   // This should never happen
   if (b === 0) {
     throw new Error('cannot divide by zero');
@@ -72,6 +84,12 @@ function div(a: number, b: number): number {
 
 // Multiplies two numbers in GF(2^8).
 function mult(a: number, b: number): number {
+  if (!Number.isInteger(a) || a < 0 || a > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
+  if (!Number.isInteger(b) || b < 0 || b > 255) {
+    throw new RangeError('Number is out of Uint8 range');
+  }
   const logA = LOG_TABLE[a]!;
   const logB = LOG_TABLE[b]!;
   const sum = (logA + logB) % 255;

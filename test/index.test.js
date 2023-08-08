@@ -1,4 +1,38 @@
-const {split, combine} = require('../');
+const {split, combine, add, mult, div} = require('../');
+
+describe('field-operations', () => {
+  it('can invert multiplication and division', () => {
+    // Show that division by zero always fails
+    for (let i = 0; i < 256; i++) {
+      expect(() => div(i, 0)).toThrow(
+        new Error('cannot divide by zero')
+      );
+    }
+
+    // Show that `(i * j) / j == i` for `j != 0`
+    for (let i = 0; i < 256; i++) {
+      for (let j = 1; j < 256; j++) {
+        expect(div(mult(i, j), j)).toBe(i);
+      }
+    }
+
+    // Show that `(i / j) * j == i` for `j != 0`
+    for (let i = 0; i < 256; i++) {
+      for (let j = 1; j < 256; j++) {
+        expect(mult(div(i, j), j)).toBe(i);
+      }
+    }
+  });
+
+  it('can invert addition', () => {
+    // Show that `(i + j) + j == i`
+    for (let i = 0; i < 256; i++) {
+      for (let j = 0; j < 256; j++) {
+        expect(add(add(i, j), j)).toBe(i);
+      }
+    }
+  });
+});
 
 describe('shamir-secret-sharing', () => {
   const secret = new Uint8Array([0x73, 0x65, 0x63, 0x72, 0x65, 0x74]);

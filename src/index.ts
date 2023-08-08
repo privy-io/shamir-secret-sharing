@@ -51,7 +51,7 @@ const EXP_TABLE: Readonly<Uint8Array> = new Uint8Array([
 
 // Combines two numbers in GF(2^8).
 // This can be used for both addition and subtraction.
-function add(a: number, b: number): number {
+export function add(a: number, b: number): number {
   if (!Number.isInteger(a) || a < 0 || a > 255) {
     throw new RangeError('Number is out of Uint8 range');
   }
@@ -62,7 +62,7 @@ function add(a: number, b: number): number {
 }
 
 // Divides two numbers in GF(2^8).
-function div(a: number, b: number): number {
+export function div(a: number, b: number): number {
   if (!Number.isInteger(a) || a < 0 || a > 255) {
     throw new RangeError('Number is out of Uint8 range');
   }
@@ -83,7 +83,7 @@ function div(a: number, b: number): number {
 }
 
 // Multiplies two numbers in GF(2^8).
-function mult(a: number, b: number): number {
+export function mult(a: number, b: number): number {
   if (!Number.isInteger(a) || a < 0 || a > 255) {
     throw new RangeError('Number is out of Uint8 range');
   }

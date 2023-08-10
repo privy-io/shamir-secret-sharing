@@ -131,7 +131,7 @@ function interpolatePolynomial(xSamples: Uint8Array, ySamples: Uint8Array, x: nu
 // Evaluates a polynomial with the given x using Horner's method.
 function evaluate(coefficients: Uint8Array, x: number, degree: number) {
   if (x === 0) {
-    throw new Error('cannot evaluate secret polynomial at zero')
+    throw new Error('cannot evaluate secret polynomial at zero');
   }
 
   let result = coefficients[degree]!;

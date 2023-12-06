@@ -2,6 +2,7 @@
 node_modules/
 *.gitignored.*
 /*.d.ts
+!index.d.ts
 /*.js
 /*.js.map
 /esm/*.d.ts

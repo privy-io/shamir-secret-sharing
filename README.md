@@ -12,7 +12,7 @@ Made with ❤️  by [Privy](https://privy.io).
 
 ## Security considerations
 
-This library has been independently audited by [Cure53](https://cure53.de) and [Zellic](https://www.zellic.io/). See the [audit report](https://cure53.de/audit-report_privy-sss-library.pdf).
+This library has been independently audited by [Cure53](https://cure53.de) ([audit report](https://cure53.de/audit-report_privy-sss-library.pdf)) and [Zellic](https://www.zellic.io/) ([audit report](https://github.com/Zellic/publications/blob/master/Privy_Shamir_Secret_Sharing_-_Zellic_Audit_Report.pdf)).
 
 There are a couple of considerations for proper use of this library.
 

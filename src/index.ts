@@ -190,7 +190,10 @@ function newCoordinates(): Readonly<Uint8Array> {
   // would be out of bounds. Thus, for bytes whose value is 255, wrap around to 0.
   //
   // WARNING: This shuffle is biased and should NOT be used if an unbiased shuffle is required.
-  // This particular application does not require any shuffling, so it is not problematic here.
+  //
+  // However, Shamir-based secret sharing does not require any particular indexing (shuffled or
+  // not) for its security properties to hold; this means including the biased shuffle is not
+  // itself problematic here.
   const randomIndices = getRandomBytes(255);
   for (let i = 0; i < 255; i++) {
     const j = randomIndices[i]! % 255; // Make sure to handle the case where the byte is 255.

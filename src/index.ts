@@ -144,10 +144,6 @@ function evaluate(coefficients: Uint8Array, x: number, degree: number) {
   return result;
 }
 
-function getRandomBytes(byteLength: number): Uint8Array {
-  return crypto.getRandomValues(new Uint8Array(byteLength));
-}
-
 // Creates a pseudo-random set of coefficients for a polynomial.
 function newCoefficients(intercept: number, degree: number): Readonly<Uint8Array> {
   const coefficients = new Uint8Array(degree + 1);

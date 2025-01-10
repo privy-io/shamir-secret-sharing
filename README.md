@@ -87,6 +87,16 @@ declare function split(secret: Uint8Array, shares: number, threshold: number): P
  */
 declare function combine(shares: Uint8Array[]): Promise<Uint8Array>;
 ```
+## Contributions
+
+The shamir-secret-sharing library is not currently open to external contributions.
+
+Please [submit an Issue](https://github.com/privy-io/shamir-secret-sharing/issues/new) and fill
+out the issue with as much information as possible if you have found a bug in need of
+fixing.
+
+You can also [submit an Issue](https://github.com/privy-io/shamir-secret-sharing/issues/new) to
+request new features, or to suggest changes to existing features.
 
 ## License
 

@@ -16,9 +16,10 @@ This library has been independently audited by [Cure53](https://cure53.de) ([aud
 
 There are a couple of considerations for proper use of this library.
 
-1. Resistance to side channel attacks: JavaScript is a garbage-collected, just-in-time compiled language and it is thus unrealistic to achieve true constant-time guarantees. Where possible, we aim to achieve algorithmic constant-time.
-2. This library is not responsible for verifying the result of share reconstruction. Incorrect or corrupted shares will produce an incorrect value. Thus, it is the responsibility of users of this library to verify the integrity of the reconstructed secret.
-3. Secrets should ideally be uniformly distributed at random. If this is not the case, it is recommended to first encrypt the value and split the encryption key.
+1. **Resistance to side-channel attacks**: JavaScript is a garbage-collected, just-in-time compiled language, so true constant-time guarantees are unrealistic. Where possible, we aim for algorithmic constant-time.
+2. **Reconstruction integrity**: This library does not verify the result of share reconstruction. Incorrect or corrupted shares can produce an incorrect value. Users are responsible for verifying the integrity of the reconstructed secret.
+3. **Secret entropy**: Secrets should ideally be uniformly random. If this is not the case, encrypt the value first and split the encryption key instead.
+4. **Input validation**: This library assumes that inputs to key-splitting and combining operations are validated and correctly formed. Callers should ensure that all inputs involved in key generation and splitting come from validated sources, or are independently validated before use.
 
 ## Usage
 

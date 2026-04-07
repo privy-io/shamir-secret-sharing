@@ -137,4 +137,78 @@ describe('shamir-secret-sharing', () => {
       }
     }
   });
+
+  it('can combine using more shares than the threshold requires', async () => {
+    const shares = await split(secret, 5, 3);
+    // Using 4 shares instead of the required 3
+    const reconstructed = await combine([shares[0], shares[1], shares[2], shares[3]]);
+    expect(reconstructed).toEqual(secret);
+  });
+
+  it('can handle binary data in secrets', async () => {
+    // Creating a secret with random binary data
+    const binarySecret = new Uint8Array(32);
+    for (let i = 0; i < binarySecret.length; i++) {
+      binarySecret[i] = Math.floor(Math.random() * 256);
+    }
+    
+    const shares = await split(binarySecret, 4, 2);
+    const reconstructed = await combine([shares[0], shares[3]]);
+    expect(reconstructed).toEqual(binarySecret);
+  });
+
+  it('can handle secrets with boundary values (0 and 255)', async () => {
+    // Secret with min and max uint8 values
+    const boundarySecret = new Uint8Array([0, 255, 0, 255]);
+    
+    const shares = await split(boundarySecret, 3, 2);
+    const reconstructed = await combine([shares[1], shares[2]]);
+    expect(reconstructed).toEqual(boundarySecret);
+  });
+
+  it('can handle larger secrets', async () => {
+    // 1KB secret
+    const largeSecret = new Uint8Array(1024);
+    for (let i = 0; i < largeSecret.length; i++) {
+      largeSecret[i] = i % 256;
+    }
+    
+    const shares = await split(largeSecret, 5, 3);
+    const reconstructed = await combine([shares[2], shares[3], shares[4]]);
+    expect(reconstructed).toEqual(largeSecret);
+  });
+
+  it('works with threshold equal to shares (requiring all shares)', async () => {
+    const allShares = await split(secret, 5, 5);
+    const reconstructed = await combine(allShares);
+    expect(reconstructed).toEqual(secret);
+  });
+
+  it('maintains consistency across multiple split and combine operations', async () => {
+    // Split the original secret
+    const firstShares = await split(secret, 4, 2);
+    const firstReconstruction = await combine([firstShares[0], firstShares[3]]);
+    
+    // Split the reconstruction
+    const secondShares = await split(firstReconstruction, 3, 2);
+    const finalReconstruction = await combine([secondShares[0], secondShares[1]]);
+    
+    // Verify it matches the original
+    expect(finalReconstruction).toEqual(secret);
+  });
+
+  it('can handle a large number of shares', async () => {
+    // Using 50 shares instead of max 255 for reasonable test performance
+    const manyShares = 50;
+    const threshold = 25;
+    
+    const shares = await split(secret, manyShares, threshold);
+    expect(shares.length).toBe(manyShares);
+    
+    // Pick exactly threshold number of shares to combine
+    const sharesToCombine = shares.slice(0, threshold);
+    const reconstructed = await combine(sharesToCombine);
+    
+    expect(reconstructed).toEqual(secret);
+  });
 });

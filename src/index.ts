@@ -218,11 +218,7 @@ const AssertArgument = {
  * @param threshold The minimum number of shares required to reconstruct `secret`. Must be at least 2 and at most 255.
  * @returns A list of `shares` shares.
  */
-export async function split(
-  secret: Uint8Array,
-  shares: number,
-  threshold: number,
-): Promise<Uint8Array[]> {
+export function splitSync(secret: Uint8Array, shares: number, threshold: number): Uint8Array[] {
   // secret must be a non-empty Uint8Array
   AssertArgument.instanceOf(secret, Uint8Array, 'secret must be a Uint8Array');
   AssertArgument.greaterThanOrEqualTo(secret.byteLength, 1, 'secret cannot be empty');
@@ -270,7 +266,7 @@ export async function split(
  * @param shares A list of shares to reconstruct the secret from. Must be at least 2 and at most 255.
  * @returns The reconstructed secret.
  */
-export async function combine(shares: Uint8Array[]): Promise<Uint8Array> {
+export function combineSync(shares: Uint8Array[]): Uint8Array {
   // Shares must be an array with length in the range [2, 256)
   AssertArgument.instanceOf(shares, Array, 'shares must be an Array');
   AssertArgument.inRange(
@@ -329,4 +325,30 @@ export async function combine(shares: Uint8Array[]): Promise<Uint8Array> {
   }
 
   return secret;
+}
+
+/**
+ * Splits a `secret` into `shares` number of shares, requiring `threshold` of them to reconstruct `secret`.
+ *
+ * @param secret The secret value to split into shares.
+ * @param shares The total number of shares to split `secret` into. Must be at least 2 and at most 255.
+ * @param threshold The minimum number of shares required to reconstruct `secret`. Must be at least 2 and at most 255.
+ * @returns A promise that resolves to a list of `shares` shares.
+ */
+export async function split(
+  secret: Uint8Array,
+  shares: number,
+  threshold: number,
+): Promise<Uint8Array[]> {
+  return splitSync(secret, shares, threshold);
+}
+
+/**
+ * Combines `shares` to reconstruct the secret.
+ *
+ * @param shares A list of shares to reconstruct the secret from. Must be at least 2 and at most 255.
+ * @returns A promise that resolves to the reconstructed secret.
+ */
+export async function combine(shares: Uint8Array[]): Promise<Uint8Array> {
+  return combineSync(shares);
 }

@@ -1,4 +1,4 @@
-const {split, combine} = require('../');
+const {split, splitSync, combine, combineSync} = require('../');
 
 describe('shamir-secret-sharing', () => {
   const secret = new Uint8Array([0x73, 0x65, 0x63, 0x72, 0x65, 0x74]);
@@ -76,6 +76,16 @@ describe('shamir-secret-sharing', () => {
     await expect(shareDuplicates).rejects.toThrow(
       new TypeError('shares must contain unique values but a duplicate was found'),
     );
+  });
+
+  it('can split and combine synchronously', () => {
+    const shares = splitSync(secret, 3, 2);
+    expect(shares).toHaveLength(3);
+    expect(shares[0]).toBeInstanceOf(Uint8Array);
+    expect(shares[0].byteLength).toBe(secret.byteLength + 1);
+
+    const reconstructed = combineSync([shares[0], shares[2]]);
+    expect(reconstructed).toEqual(secret);
   });
 
   it('can split a secret into multiple shares', async () => {

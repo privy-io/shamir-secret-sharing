@@ -1,6 +1,6 @@
 # shamir-secret-sharing
 
-![Github CI](https://github.com/privy-io/shamir-secret-sharing/workflows/Github%20CI/badge.svg)
+[![Github CI](https://github.com/privy-io/shamir-secret-sharing/workflows/Github%20CI/badge.svg)](https://github.com/privy-io/shamir-secret-sharing/actions/workflows/tests.yml)
 
 Simple, independently audited, zero-dependency TypeScript implementation of [Shamir's Secret Sharing algorithm](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing).
 
